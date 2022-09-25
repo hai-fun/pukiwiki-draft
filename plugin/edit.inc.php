@@ -12,6 +12,7 @@ define('PLUGIN_EDIT_FREEZE_REGEX', '/^(?:#freeze(?!\w)\s*)+/im');
 function plugin_edit_action()
 {
 	global $vars, $_title_edit;
+	global $draft;
 
 	if (PKWK_READONLY) die_message('PKWK_READONLY prohibits editing');
 
@@ -30,6 +31,8 @@ function plugin_edit_action()
 		return plugin_edit_write();
 	} else if (isset($vars['cancel'])) {
 		return plugin_edit_cancel();
+	} else if (isset($vars['draft']) && $draft) {
+		return plugin_edit_write(true);
 	}
 	ensure_valid_page_name_length($page);
 	$postdata = @join('', get_source($page));
@@ -216,7 +219,7 @@ function plugin_edit_inline()
 }
 
 // Write, add, or insert new comment
-function plugin_edit_write()
+function plugin_edit_write($isDraft = false)
 {
 	global $vars;
 	global $_title_collided, $_msg_collided_auto, $_msg_collided, $_title_deleted;
@@ -264,7 +267,11 @@ function plugin_edit_write()
 
 	// NULL POSTING, OR removing existing page
 	if ($postdata === '') {
-		page_write($page, $postdata);
+		if ($isDraft) {
+			page_write(sprintf(PLUGIN_DRAFT_PAGE, $page), $postdata);
+		} else {
+			page_write($page, $postdata);
+		}
 		$retvars['msg' ] = $_title_deleted;
 		$retvars['body'] = str_replace('$1', htmlsc($page), $_title_deleted);
 		return $retvars;
@@ -278,10 +285,13 @@ function plugin_edit_write()
 		$retvars['body'] .= edit_form($page, $msg, $digest, FALSE);
 		return $retvars;
 	}
-
-	page_write($page, $postdata, $notimeupdate != 0 && $notimestamp);
+	if ($isDraft) {
+		page_write(sprintf(PLUGIN_DRAFT_PAGE, $page), $postdata, $notimeupdate != 0 && $notimestamp);
+	} else {
+		page_write($page, $postdata, $notimeupdate != 0 && $notimestamp);
+	}
 	pkwk_headers_sent();
-	header('Location: ' . get_page_uri($page, PKWK_URI_ROOT));
+	header('Location: ' . get_page_uri($isDraft ? sprintf(PLUGIN_DRAFT_PAGE, $page) : $page, PKWK_URI_ROOT));
 	exit;
 }
 

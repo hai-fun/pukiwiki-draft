@@ -73,6 +73,7 @@ $_btn_preview   = 'Preview';
 $_btn_repreview = 'Preview again';
 $_btn_update    = 'Update';
 $_btn_cancel    = 'Cancel';
+$_btn_draft     = 'Save as draft';
 $_btn_notchangetimestamp = 'Do not change timestamp';
 $_btn_addtop    = 'Add to top of page';
 $_btn_template  = 'Use page as template';

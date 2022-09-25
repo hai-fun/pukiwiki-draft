@@ -75,6 +75,7 @@ $_btn_preview   = 'プレビュー';
 $_btn_repreview = '再度プレビュー';
 $_btn_update    = 'ページの更新';
 $_btn_cancel    = 'キャンセル';
+$_btn_draft     = '下書き保存';
 $_btn_notchangetimestamp = 'タイムスタンプを変更しない';
 $_btn_addtop    = 'ページの上に追加';
 $_btn_template  = '雛形とするページ';

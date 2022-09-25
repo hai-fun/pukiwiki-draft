@@ -186,6 +186,13 @@ $function_freeze = 1;
 $notimeupdate = 1;
 
 /////////////////////////////////////////////////
+// Draft feature
+$draft = 1;
+
+// Draft Page
+define('PLUGIN_DRAFT_PAGE', 'draft/%s');
+
+/////////////////////////////////////////////////
 // Admin password for this Wikisite
 
 // Default: always fail

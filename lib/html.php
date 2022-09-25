@@ -334,9 +334,9 @@ EOS;
 function edit_form($page, $postdata, $digest = FALSE, $b_template = TRUE)
 {
 	global $vars, $rows, $cols;
-	global $_btn_preview, $_btn_repreview, $_btn_update, $_btn_cancel, $_msg_help;
+	global $_btn_preview, $_btn_repreview, $_btn_update, $_btn_cancel, $_btn_draft, $_msg_help;
 	global $_btn_template, $_btn_load, $load_template_func;
-	global $notimeupdate;
+	global $notimeupdate, $draft;
 	global $_msg_edit_cancel_confirm, $_msg_edit_unloadbefore_message;
 	global $rule_page;
 
@@ -411,6 +411,10 @@ EOD;
 	// are for layout of 'cancel button'
 	$h_msg_edit_cancel_confirm = htmlsc($_msg_edit_cancel_confirm);
 	$h_msg_edit_unloadbefore_message = htmlsc($_msg_edit_unloadbefore_message);
+	$draft_tag = '';
+	if ($draft) {
+		$draft_tag = '<input type="submit" name="draft" value="' . $_btn_draft . '" accesskey="d" />';
+	}
 	$body = <<<EOD
 <div class="edit_form">
  <form action="$script" method="post" class="_plugin_edit_edit_form" style="margin-bottom:0;">
@@ -426,6 +430,7 @@ $template
   <div style="float:left;">
    <input type="submit" name="preview" value="$btn_preview" accesskey="p" />
    <input type="submit" name="write"   value="$_btn_update" accesskey="s" />
+   $draft_tag
    $add_top
    $add_notimestamp
   </div>
